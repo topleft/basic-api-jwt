@@ -4,7 +4,7 @@
   "scripts": {
     "knex": "knex",
     "start": "gulp --gulpfile app/gulpfile.js",
-    "test": "source .env-test && sh ./src/db/resetTestDb.sh && './node_modules/mocha/bin/_mocha' './test/runner.test.js'"
+    "test": "export NODE_ENV=test && './node_modules/mocha/bin/_mocha' './test/runner.test.js'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.0",

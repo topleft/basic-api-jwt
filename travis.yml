@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '8'
+- '7'
+before_script:
+- npm install mocha -g
+- sleep 15
+- knex migrate:latest --env test
+script:
+- mocha
+services:
+- postgresql

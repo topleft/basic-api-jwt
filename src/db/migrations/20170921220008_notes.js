@@ -3,7 +3,6 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('Notes', (table) => {
     table.increments();
     table.string('body').notNullable();
-    table.timestamps(true, true);
   });
 };
 

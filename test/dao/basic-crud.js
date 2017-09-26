@@ -71,7 +71,6 @@ const tests = () => {
           })
           .then((result) => {
             expect(result[0]).to.have.property('id');
-            expect(result[0]).to.have.property('created_at');
             expect(result[0]).to.include(fixtures[table].items[0]);
           });
         });
@@ -104,7 +103,6 @@ const tests = () => {
           })
           .then((result) => {
             expect(result[0]).to.have.property('id');
-            expect(result[0]).to.have.property('created_at');
             expect(result[0]).to.include(fixtures[table].edit);
           });
         });
