@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/topleft/basic-api-jwt.svg?branch=master)](https://travis-ci.org/topleft/basic-api-jwt)
+
 ### Node Express Basic API with JWT Auth
 
 A test-driven api with basic crud routes easily extended to new collections.
