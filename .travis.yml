@@ -5,6 +5,7 @@ node_js:
 before_script:
 - npm install mocha -g
 - sleep 15
+- psql -c 'create database travis_ci_test;' -U postgres
 - knex migrate:latest --env test
 script:
 - mocha
