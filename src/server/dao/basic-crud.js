@@ -16,12 +16,13 @@ module.exports = {
 
   addOne: (table, newDoc) => {
     return knex(table)
-    .returning('id')
+    .returning('*')
     .insert(newDoc);
   },
 
   editOne: (table, id, editedFields) => {
     return knex(table)
+    .returning('*')
     .update(editedFields)
     .where('id', id);
   },

@@ -36,10 +36,13 @@ module.exports = (table, authRequired) => {
 
   router.post(`/${table}`, (req, res, next) => {
     const newDoc = req.body;
-    console.log(table);
     crud.addOne(table, newDoc)
     .then((result) => {
-      res.status(200).json({data: `Created new row in ${table}`});
+      console.log(result);
+      res.status(200).json({
+        data: result[0],
+        message: `Created new row in ${table}`
+      });
     })
     .catch((err) => {
       res.status(500).json({
@@ -53,7 +56,10 @@ module.exports = (table, authRequired) => {
     const id = req.params.id;
     const editedFields = req.body;
     crud.editOne(table, id, editedFields)
-    .then(() => res.status(200).json({data: `Edited ${id} in ${table}`}))
+    .then((result) => res.status(200).json({
+      data: result[0],
+      message: `Edited id ${id} in ${table}`
+    }))
     .catch((err) => {
       res.status(500).json({
         err: err,
@@ -62,10 +68,10 @@ module.exports = (table, authRequired) => {
     });
   });
 
-  router.delete(`/${table}`, (req, res, next) => {
-    const id = req.body.id;
+  router.delete(`/${table}/:id`, (req, res, next) => {
+    const id = req.params.id;
     crud.deleteOne(table, id)
-    .then(() => res.status(200).json({data: `Deleted ${id} in ${table}`}))
+    .then(() => res.status(200).json({message: `Deleted id ${id} in ${table}`}))
     .catch((err) => {
       res.status(500).json({
         err: err,

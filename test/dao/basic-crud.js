@@ -67,7 +67,7 @@ const tests = () => {
           return crud.addOne(table, fixtures[table].items[0])
           .should.be.fulfilled
           .then((res) => {
-            return knex(table).select().where({id: res[0]});
+            return knex(table).select().where({id: res[0].id});
           })
           .then((result) => {
             expect(result[0]).to.have.property('id');
