@@ -11,9 +11,9 @@ const users = [
   }
 ];
 
-exports.seed = (knex, Promise) => {
+exports.seed = knex => {
   return knex('Users').del()
-  .then(() => {
-    return knex('Users').insert(users);
-  });
+    .then(() => {
+      return knex('Users').insert(users);
+    });
 };

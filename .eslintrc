@@ -1,0 +1,12 @@
+{
+  "extends": ["eslint:recommended", "plugin:node/recommended", "mocha"],
+  "rules": {
+    "node/no-unpublished-require": ["error", {
+        "allowModules": ["chai", "chai-as-promised", "chai-http", "mocha-eslint"]
+    }]
+  },
+  "env": {
+    "node": true,
+    "mocha": true
+  }
+}

@@ -1,5 +1,5 @@
-const Notes = require('./notes')
+const Notes = require('./notes');
 
 module.exports = {
   Notes
-}
+};

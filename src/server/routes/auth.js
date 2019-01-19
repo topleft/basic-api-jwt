@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../dao/auth');
-const knex = require('../../db/connection');
 
 router.post('/register', auth.registerUser);
 

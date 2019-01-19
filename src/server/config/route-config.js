@@ -1,9 +1,7 @@
 (function (routeConfig) {
-
   'use strict';
 
   routeConfig.init = function (app) {
-
     // *** routes *** //
 
     const routes = require('../routes/routes');
@@ -12,7 +10,5 @@
 
     app.use('/auth/', routes.auth);
     app.use('/api/', routes.notes);
-
   };
-
 })(module.exports);
