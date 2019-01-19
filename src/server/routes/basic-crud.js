@@ -23,7 +23,7 @@ module.exports = (table, authRequired) => {
         res.status(200).json({ data });
       })
       .catch(err => {
-        next(err)
+        next(err);
       });
   });
 

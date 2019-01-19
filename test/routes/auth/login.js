@@ -25,7 +25,7 @@ const tests = () => {
           .end((err, res) => {
             expect(err.status).to.equal(401);
             expect(res.status).to.equal(401);
-            expect(res.body.message).to.equal('Login failed.');
+            expect(res.error.message).to.equal('cannot POST /auth/login (401)');
             done();
           });
       });

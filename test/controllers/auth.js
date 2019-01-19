@@ -42,7 +42,7 @@ const tests = () => {
         .end((err, res) => {
           err.status.should.eql(401);
           res.status.should.eql(401);
-          res.body.message.should.contain('Please log in');
+          res.body.error.message.should.contain('Please log in');
           done();
         });
     });

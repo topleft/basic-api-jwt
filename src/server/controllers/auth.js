@@ -2,7 +2,6 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const knex = require('../../db/connection');
-const winston = require('../config/winston');
 
 const auth = {
 
@@ -132,6 +131,8 @@ const auth = {
         });
       })
       .catch(err => {
+        err.status = 401;
+        err.message = 'Login failed.';
         next(err);
       });
   },
