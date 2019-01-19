@@ -5,7 +5,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect;
 const crud =
-  require('../../src/server/dao/basic-crud');
+  require('../../src/server/controllers/basic-crud');
 const fixtures =
   require('../fixtures/index');
 chai.use(chaiAsPromised);

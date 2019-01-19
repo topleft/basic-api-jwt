@@ -16,7 +16,6 @@ const auth = {
   },
 
   decodeToken (token) {
-    // is jwt verify async?
     const payload = jwt.verify(token, process.env.TOKEN_SECRET);
     const now = moment().unix();
     return new Promise((resolve, reject) => {
@@ -36,9 +35,9 @@ const auth = {
 
   checkAuthentication (req, res, next) {
     if (!(req.headers && req.headers.authorization)) {
-      return res.status(401).json({
-        message: 'Please log in.'
-      });
+      const error = new Error('Please log in.');
+      error.status = 401;
+      return next(error);
     }
     // decode the token
     var header = req.headers.authorization.split(' ');
@@ -51,16 +50,15 @@ const auth = {
             next();
           });
       })
-      .catch(err => {
-        return res.status(401).json({
-          message: err
-        });
+      .catch(error => {
+        error.status = 401;
+        return next(error);
       });
   },
 
   createUser (user) {
     return new Promise((resolve, reject) => {
-      this.handleUserErrors(user)
+      this.validateUserAndPassword(user)
         .then(() => {
           const salt = bcrypt.genSaltSync();
           const hash = bcrypt.hashSync(user.password, salt);
@@ -76,29 +74,34 @@ const auth = {
   },
 
   editUser (user, id) {
-    return this.handleUserErrors(user).then(() => {
-      const salt = bcrypt.genSaltSync();
-      const hash = bcrypt.hashSync(user.password, salt);
-      return knex('Users').where({ id: id }).update({
-        username: user.username,
-        password: hash
-      }, '*');
-    });
+    return this.validateUserAndPassword(user)
+      .then(() => {
+        const salt = bcrypt.genSaltSync();
+        const hash = bcrypt.hashSync(user.password, salt);
+        return knex('Users').where({ id: id }).update({
+          username: user.username,
+          password: hash
+        }, '*');
+      });
   },
 
-  handleUserErrors (user) {
+  validateUserAndPassword (user) {
     return new Promise((resolve, reject) => {
       if (user.username.length < 6) {
-        reject(new Error('Username must be longer than 6 characters'));
+        const err = new Error('Username must be longer than 6 characters');
+        err.status(400);
+        reject(err);
       } else if (user.password.length < 6) {
-        reject(new Error('Password must be longer than 6 characters'));
+        const err = new Error('Password must be longer than 6 characters');
+        err.status(400);
+        reject(err);
       } else {
         resolve();
       }
     });
   },
 
-  registerUser (req, res) {
+  registerUser (req, res, next) {
     auth.createUser(req.body.user)
       .then(user => { return auth.encodeToken(user[0]); })
       .then(token => {
@@ -108,15 +111,11 @@ const auth = {
         });
       })
       .catch(err => {
-        if (err) {
-          res.status(400).json(err);
-        } else {
-          res.status(400).json({ message: 'Regsitration failed' });
-        }
+        next(err);
       });
   },
 
-  login (req, res) {
+  login (req, res, next) {
     const username = req.body.user.username;
     const password = req.body.user.password;
     return knex('Users').where({ username }).first()
@@ -131,20 +130,20 @@ const auth = {
           token: token
         });
       })
-      .catch(() => {
-        res.status(401).json({ message: 'Login failed.' });
+      .catch(err => {
+        next(err);
       });
   },
 
-  getCurrentUser (req, res) {
+  getCurrentUser (req, res, next) {
     knex('Users').where({ id: parseInt(req.user.id) }).first()
       .then(user => {
         let result = Object.assign({}, user);
         delete result.password;
         res.status(200).json({ data: result });
       })
-      .catch(() => {
-        res.status(400).json({ err: 'not-found', message: 'An error ocurred while getting the current user.' });
+      .catch(err => {
+        next(err);
       });
   }
 

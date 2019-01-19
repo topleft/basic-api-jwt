@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 chai.use(chaiHttp);
 
 const server = require('../../src/server/app');
-const auth = require('../../src/server/dao/auth');
+const auth = require('../../src/server/controllers/auth');
 
 const tests = () => {
   describe('encodeToken()', () => {

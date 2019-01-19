@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../dao/auth');
+const auth = require('../controllers/auth');
 
 router.post('/register', auth.registerUser);
 

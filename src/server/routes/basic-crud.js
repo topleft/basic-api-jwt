@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const authHelpers = require('../dao/auth');
-const crud = require('../dao/basic-crud');
+const authHelpers = require('../controllers/auth');
+const crud = require('../controllers/basic-crud');
 
 module.exports = (table, authRequired) => {
   if (authRequired) router.all('*', authHelpers.checkAuthentication);
@@ -12,7 +12,7 @@ module.exports = (table, authRequired) => {
         res.status(200).json({ data });
       })
       .catch(err => {
-        res.status(500).json({
+        res.status(400).json({
           err: err,
           message: `There was an error retrieving the ${table}`
         });

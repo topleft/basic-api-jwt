@@ -1,15 +1,17 @@
+/* eslint-disable node/no-unpublished-require */
+/* eslint-disable node/no-extraneous-require */
+/* eslint-disable no-console */
+
 // *** dependencies *** //
 
 const path = require('path');
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
-const runSequence = require('run-sequence');
 const nodemon = require('gulp-nodemon');
 const plumber = require('gulp-plumber');
 const server = require('tiny-lr')();
-// *** config *** //
 
-console.log('path', path.join('src', 'server', 'server.js'));
+// *** config *** //
 
 const paths = {
   scripts: [
@@ -17,10 +19,8 @@ const paths = {
     path.join('src', '**', '**', '*.js'),
     path.join('src', '*.js')
   ],
-  styles: [
-    path.join('src', 'client', 'css', '*.css')
-  ],
-  server: path.join('src', 'server', 'server.js')
+  server: path.join('src', 'server', 'server.js'),
+  dist: path.join('dist')
 };
 
 const lrPort = 35729;
@@ -40,16 +40,11 @@ gulp.task('eslint', () => {
   return gulp.src(paths.scripts)
     .pipe(plumber())
     .pipe(eslint())
-    .pipe(eslint.format())
-});
-
-gulp.task('styles', () => {
-  return gulp.src(paths.styles)
-    .pipe(plumber());
+    .pipe(eslint.format());
 });
 
 gulp.task('lr', () => {
-  server.listen(lrPort, (err) => {
+  server.listen(lrPort, err => {
     if (err) {
       return console.error(err);
     }
@@ -66,14 +61,13 @@ gulp.task('watch', () => {
   gulp.watch(paths.styles, ['styles']);
 });
 
-
 // *** default task *** //
 
 gulp.task('default',
   gulp.series(
-    ['eslint'],
-    ['lr'],
-    ['nodemon'],
-    ['watch']
+    'eslint',
+    'nodemon',
+    'lr',
+    'watch'
   )
 );

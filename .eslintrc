@@ -3,7 +3,8 @@
   "rules": {
     "node/no-unpublished-require": ["error", {
         "allowModules": ["chai", "chai-as-promised", "chai-http", "mocha-eslint"]
-    }]
+    }],
+    "comma-dangle": ["warn", "only-multiline"]
   },
   "env": {
     "node": true,
