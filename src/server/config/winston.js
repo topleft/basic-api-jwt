@@ -1,6 +1,8 @@
 const appRoot = require('app-root-path');
 const winston = require('winston');
 
+const env = process.env.NODE_ENV;
+
 const options = {
   file: {
     level: 'info',
@@ -10,6 +12,7 @@ const options = {
     maxsize: 5242880, // 5MB
     maxFiles: 5,
     colorize: false,
+    silent: env === 'test',
   },
   console: {
     level: 'debug',
@@ -17,6 +20,7 @@ const options = {
     json: false,
     colorize: true,
     format: winston.format.json(),
+    silent: env === 'test',
   }
 };
 
