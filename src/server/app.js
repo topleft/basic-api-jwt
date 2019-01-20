@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // *** register routes *** //
+app.use('/ping/', routes.ping);
 app.use('/auth/', routes.auth);
 app.use('/api/', routes.notes);
 
