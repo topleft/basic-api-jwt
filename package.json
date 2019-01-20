@@ -3,10 +3,12 @@
   "private": true,
   "scripts": {
     "knex": "knex",
-    "start": "gulp --gulpfile app/gulpfile.js",
-    "test": "export NODE_ENV=test && './node_modules/mocha/bin/_mocha' './test/runner.test.js'"
+    "start": "gulp --gulpfile gulpfile.js",
+    "test": "export NODE_ENV=test && './node_modules/mocha/bin/_mocha' './test/runner.test.js'",
+    "lint:fix": "eslint ./src ./test --fix"
   },
   "dependencies": {
+    "app-root-path": "^2.1.0",
     "bcryptjs": "^2.4.0",
     "body-parser": "~1.15.1",
     "cors": "^2.8.4",
@@ -16,22 +18,31 @@
     "knex": "^0.11.10",
     "moment": "^2.17.1",
     "morgan": "~1.7.0",
-    "pg": "6.1.0"
+    "pg": "6.1.0",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-http": "^3.0.0",
-    "gulp-jscs": "^4.0.0",
-    "gulp-jshint": "^2.0.1",
+    "eslint-config-import": "^0.13.0",
+    "eslint-config-mocha": "0.0.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-mocha": "^5.2.1",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-eslint": "^5.0.0",
     "gulp-nodemon": "^2.1.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
-    "jshint": "^2.9.3",
-    "jshint-stylish": "^2.2.1",
     "mocha": "^3.0.2",
-    "mocha-jscs": "^5.0.1",
-    "mocha-jshint": "^2.3.1",
+    "mocha-eslint": "^5.0.0",
     "run-sequence": "^1.2.2",
     "sinon": "^3.3.0",
     "tiny-lr": "^0.2.1"

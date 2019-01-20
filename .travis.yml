@@ -11,3 +11,6 @@ script:
 - mocha
 services:
 - postgresql
+notifications:
+  email:
+    - pete.topleft@gmail.com

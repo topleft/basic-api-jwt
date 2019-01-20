@@ -1,16 +1,17 @@
+/* eslint-disable node/no-unpublished-require */
+/* eslint-disable node/no-extraneous-require */
+/* eslint-disable no-console */
+
 // *** dependencies *** //
 
 const path = require('path');
 const gulp = require('gulp');
-const jshint = require('gulp-jshint');
-const jscs = require('gulp-jscs');
-const runSequence = require('run-sequence');
+const eslint = require('gulp-eslint');
 const nodemon = require('gulp-nodemon');
 const plumber = require('gulp-plumber');
 const server = require('tiny-lr')();
-// *** config *** //
 
-console.log('path', path.join('src', 'server', 'server.js'));
+// *** config *** //
 
 const paths = {
   scripts: [
@@ -18,10 +19,8 @@ const paths = {
     path.join('src', '**', '**', '*.js'),
     path.join('src', '*.js')
   ],
-  styles: [
-    path.join('src', 'client', 'css', '*.css')
-  ],
-  server: path.join('src', 'server', 'server.js')
+  server: path.join('src', 'server', 'server.js'),
+  dist: path.join('dist')
 };
 
 const lrPort = 35729;
@@ -35,46 +34,17 @@ const nodemonConfig = {
   }
 };
 
-// *** default task *** //
-
-gulp.task('default', () => {
-  runSequence(
-    ['jshint'],
-    ['jscs'],
-    ['lr'],
-    ['nodemon'],
-    ['watch']
-  );
-});
-
 // *** sub tasks ** //
 
-gulp.task('jshint', () => {
+gulp.task('eslint', () => {
   return gulp.src(paths.scripts)
     .pipe(plumber())
-    .pipe(jshint({
-      esnext: true
-    }))
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('fail'));
-});
-
-gulp.task('jscs', () => {
-  return gulp.src(paths.scripts)
-    .pipe(plumber())
-    .pipe(jscs())
-    .pipe(plumber())
-    .pipe(jscs.reporter())
-    .pipe(jscs.reporter('fail'));
-});
-
-gulp.task('styles', () => {
-  return gulp.src(paths.styles)
-    .pipe(plumber());
+    .pipe(eslint())
+    .pipe(eslint.format());
 });
 
 gulp.task('lr', () => {
-  server.listen(lrPort, (err) => {
+  server.listen(lrPort, err => {
     if (err) {
       return console.error(err);
     }
@@ -87,6 +57,17 @@ gulp.task('nodemon', () => {
 
 gulp.task('watch', () => {
   gulp.watch(paths.html, ['html']);
-  gulp.watch(paths.scripts, ['jshint', 'jscs']);
+  gulp.watch(paths.scripts, ['eslint']);
   gulp.watch(paths.styles, ['styles']);
 });
+
+// *** default task *** //
+
+gulp.task('default',
+  gulp.series(
+    'eslint',
+    'nodemon',
+    'lr',
+    'watch'
+  )
+);

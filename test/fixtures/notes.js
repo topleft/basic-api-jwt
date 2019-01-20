@@ -13,5 +13,5 @@ module.exports = {
       body: 'test 3'
     }
   ],
-  edit: {body: 'test edit'}
-}
+  edit: { body: 'test edit' }
+};
