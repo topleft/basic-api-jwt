@@ -1,8 +1,10 @@
 Todo:
 
-refactor server/config setup
 configure .env for env vars
-implement winston logger
+Dockerize
+Deploy with nginx in front of it
+
+
 
 create a note table
 create notes seeds
