@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "knex": "knex",
-    "start": "gulp --gulpfile gulpfile.js",
+    "dev": "gulp --gulpfile gulpfile.js",
+    "start": "node ./src/server/server.js",
     "test": "export NODE_ENV=test && './node_modules/mocha/bin/_mocha' './test/runner.test.js'",
     "lint:fix": "eslint ./src ./test --fix"
   },
