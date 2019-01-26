@@ -10,6 +10,10 @@ module.exports = {
       user: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
     },
+    pool: {
+      min: 0,
+      max: 4
+    },
     migrations: {
       directory: path.join(__dirname, '/src/db/migrations')
     },
