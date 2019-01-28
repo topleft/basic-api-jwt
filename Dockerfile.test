@@ -1,0 +1,14 @@
+FROM node:10
+
+WORKDIR /usr/src
+
+COPY knexfile.js ./
+COPY package*.json ./
+COPY .eslintrc ./
+
+RUN npm install
+
+COPY ./src ./src/.
+COPY ./test ./test/.
+
+CMD [ "npm", "run", "test" ]
