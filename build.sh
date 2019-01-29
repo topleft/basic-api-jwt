@@ -3,7 +3,7 @@
 # CICD on merge to master
 
 # Be sure the directory is clean
-if ! $(git status | grep 'nothing to commit'); then
+if ! (git status | grep 'nothing to commit'); then
   echo "\nWARNING\n"
   echo "You have uncommited changes. Please commit changes before building.\n"
   echo "Exiting build script.\n"
