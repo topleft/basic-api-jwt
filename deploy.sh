@@ -1,4 +1,4 @@
-cd ~/basic-api-jwt
+
 git checkout origin master
 git pull origin master
 sudo docker build -f Dockerfile.test -t topleft/api-boiler-test .
@@ -12,12 +12,11 @@ if [ $EXIT_CODE -eq 0 ]
     echo build successful!\\n
     VERSION=$(npm version patch)
     sudo git push origin master
-    cat ~/docker.password | sudo docker login --username foo --password-stdin
+    sudo docker login --username topleft --password $docker_password
     sudo docker push topleft/api-boiler:$VERSION
     echo "image: topleft/api-boiler:$VERSION"
     echo push successful!\\n
-    sudo docker run -d -it -p 3030:3030 --env-file=~/veggies_env_file.dev topleft/api-boiler:$VERSION
+    sudo docker run -d -it -p 3030:3030 --env-file=~/env_file.dev topleft/api-boiler:$VERSION
   else
     echo "Tests failed with exit code: $EXIT_CODE"
-    exit(1)
 fi
