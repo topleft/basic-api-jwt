@@ -8,11 +8,11 @@ EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
 if [ $EXIT_CODE -eq 0 ]
   then
     echo "Tests past!\n"
-    sudo docker build -f Dockerfile.dev -t topleft/api-boiler:latest .
+    sudo docker build -f Dockerfile -t topleft/api-boiler:latest .
     echo build successful!\\n
     VERSION=$(npm version patch)
     sudo git push origin master
-    sudo docker login --username topleft --password $docker_password
+    echo $docker_password | sudo docker login --username topleft --password-stdin
     sudo docker push topleft/api-boiler:$VERSION
     echo "image: topleft/api-boiler:$VERSION"
     echo push successful!\\n
