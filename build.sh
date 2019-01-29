@@ -28,7 +28,7 @@ EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
 # 2. if tests continue
 if [ $EXIT_CODE -eq 0 ]
   then
-    echo "Tests past!\n"
+    echo "\nTests past!\n"
 
     # 3. update and commit application version
     VERSION=$(npm version patch)
