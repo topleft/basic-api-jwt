@@ -2,36 +2,55 @@
 
 # CICD on merge to master
 
-# 1. run the tests in the docker container
-# 2. if tests pass build container, else exit
-# 3. update application version
-# 4. commit version update
-# 5. tag
+# Be sure the directory is clean
+if ! [ $(git status | grep 'nothing to commit') ]; then
+  echo "\nWARNING\n"
+  echo "You have uncommited changes. Please commit changes before building.\n"
+  echo "Exiting build script.\n"
+  exit 1
+fi
 
-# build and run test container
+# 1. run the tests in the docker container
+# 2. if tests continue
+# 3. update application version
+# 4. push new version and tag to git
+# 5. build container
+# 6. tag it
+# 7. sign in to docker hub
+# 8. push both latest and $version to docker hub
+
+# 1. run the tests in the docker container
 docker build -f Dockerfile.test -t topleft/api-boiler-test .
 CONTAINER_ID=$(docker run -d --env-file=env_file.test topleft/api-boiler-test:latest)
 echo "Container ID: $CONTAINER_ID"
 EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
 
+# 2. if tests continue
 if [ $EXIT_CODE -eq 0 ]
   then
     echo "Tests past!\n"
 
-    # bump minor version
+    # 3. update and commit application version
     VERSION=$(npm version patch)
-    git push origin master
+    # 4. push new version and tag to git
+    git push
+    git push --tags
 
-    # build container, tag it and push it to Docker Hub
+    # 5. build container
     docker build -f Dockerfile -t topleft/api-boiler:$VERSION .
+
+    # 6. tag it
     docker tag topleft/api-boiler:latest topleft/api-boiler:$VERSION
+
+    # 7. sign in to docker hub
     echo $docker_password | docker login --username topleft --password-stdin
-    docker push topleft/api-boiler:latestx
+
+    # 8. push both latest and $version to docker hub
+    docker push topleft/api-boiler:latest
     docker push topleft/api-boiler:$VERSION
 
-    echo "docker image: topleft/api-boiler:$VERSION"
-
-    echo "push successful!\n"
+    echo "DOCKER IMAGE: topleft/api-boiler:$VERSION\n"
+    echo "Build successful!\n"
   else
     echo "Tests failed with exit code: $EXIT_CODE"
 fi
