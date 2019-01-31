@@ -29,7 +29,7 @@ until [ $STATUS = 'Exited' ]; do
   sleep 2
   STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}')
 
-EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
+EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}');
 # 2. if tests continue
 if [ $EXIT_CODE -eq 0 ]
   then
@@ -58,4 +58,5 @@ if [ $EXIT_CODE -eq 0 ]
     echo "Build successful!\n"
   else
     echo "Tests failed with exit code: $EXIT_CODE"
+    exit 1
 fi
