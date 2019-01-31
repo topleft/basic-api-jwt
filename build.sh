@@ -58,6 +58,7 @@ if [ $EXIT_CODE -eq 0 ];
     echo "DOCKER IMAGE: topleft/api-boiler:$VERSION\n"
     echo "Build successful!\n"
   else
-    echo "Tests failed with exit code: $EXIT_CODE"
+    echo "\n Tests failed.\n"
+    echo "For details run --> docker logs $CONTAINER_ID\n"
     exit 1
 fi
