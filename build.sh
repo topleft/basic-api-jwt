@@ -23,8 +23,13 @@ fi
 docker build -f Dockerfile.test -t topleft/api-boiler-test .
 CONTAINER_ID=$(docker run -d --env-file=env_file.test topleft/api-boiler-test:latest)
 echo "Container ID: $CONTAINER_ID"
-EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
 
+STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}')
+until [ $STATUS = 'Exited' ]; do
+  sleep 2
+  STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}')
+
+EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
 # 2. if tests continue
 if [ $EXIT_CODE -eq 0 ]
   then
