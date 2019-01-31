@@ -31,7 +31,7 @@ until [ $STATUS = 'Exited' ]; do
 
 EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
 # 2. if tests continue
-if [ $EXIT_CODE -eq 0 ]
+if [ $EXIT_CODE -eq 0 ];
   then
     echo "\nTests past!\n"
 
