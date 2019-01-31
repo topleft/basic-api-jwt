@@ -28,6 +28,7 @@ STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}')
 until [ $STATUS = 'Exited' ]; do
   sleep 2
   STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}');
+done
 
 EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
 # 2. if tests continue
