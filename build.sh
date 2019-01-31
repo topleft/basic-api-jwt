@@ -25,7 +25,7 @@ CONTAINER_ID=$(docker run -d --env-file=env_file.test topleft/api-boiler-test:la
 echo "Container ID: $CONTAINER_ID"
 
 STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}')
-until [ $STATUS = 'Exited' ]; do
+until [ $STATUS = 'exited' ]; do
   sleep 2
   STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}');
 done
