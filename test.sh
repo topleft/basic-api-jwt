@@ -1,6 +1,6 @@
 echo 'Running tests ... '
 docker build -f Dockerfile.test --pull --cache-from topleft/api-boiler-test: -t topleft/api-boiler-test .
-CONTAINER_ID=$(docker run -e BASIC_DB_TEST -e TOKEN_SECRET -e NODE_ENV topleft/api-boiler-test:latest)
+CONTAINER_ID=$(docker run BASIC_DB_TEST=postgres://postgres@host.docker.internal:5432/basic_db_test -e TOKEN_SECRET -e NODE_ENV topleft/api-boiler-test:latest)
 echo "Container ID: $CONTAINER_ID"
 
 STATUS=$(docker inspect $CONTAINER_ID --format='{{.State.Status}}')
