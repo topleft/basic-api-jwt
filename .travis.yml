@@ -16,7 +16,7 @@ before_script:
 - knex migrate:latest --env test
 
 script:
-- docker run -d --env-file=env_file.test topleft/api-boiler-test:latest
+- docker run -d -e BASIC_DB_TEST -e TOKEN_SECRET -e NODE_ENV topleft/api-boiler-test:latest
 
 notifications:
   email:
