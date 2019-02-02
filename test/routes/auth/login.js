@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 const server = require('../../../src/server/app');
 
 const tests = () => {
+  console.log('DB CONNECTION', process.env.BASIC_DB_TEST);
   describe('auth/login', () => {
     describe('errors', () => {
       it('should not login unregistered user', done => {
