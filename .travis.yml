@@ -10,7 +10,7 @@ services:
 before_install:
 - psql -c 'create database basic_db_test;' -U postgres
 - npm install knex -g
-- BASIC_DB_TEST=postgres://postgres@localhost:5432/basic_db_test npm run knex -- migrate:latest --env test --knexfile ./knexfile.js
+- BASIC_DB_TEST=postgres://postgres@localhost:5432/basic_db_test npm run knex -- migrate:latest --env test
 
 script:
 - sh test.sh
