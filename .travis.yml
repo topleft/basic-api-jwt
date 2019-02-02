@@ -1,16 +1,15 @@
 language: node_js
-node_js:
-- '8'
-- '7'
+services:
+- docker
+- postgresql
+
+before_install:
+- psql -c 'create database basic_db_test;' -U postgres
+- docker build -f Dockerfile.test -t topleft/api-boiler-test .
 before_script:
-- npm install mocha -g
-- sleep 15
-- psql -c 'create database travis_ci_test;' -U postgres
 - knex migrate:latest --env test
 script:
-- mocha
-services:
-- postgresql
+- docker run -d --env-file=env_file.test topleft/api-boiler-test:latest
 notifications:
   email:
     - pete.topleft@gmail.com
