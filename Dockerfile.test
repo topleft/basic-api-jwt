@@ -11,4 +11,7 @@ RUN npm install
 COPY ./src ./src/.
 COPY ./test ./test/.
 
+BASIC_DB_TEST=postgres://postgres@host.docker.internal:5432/basic_db_test knex migrate:rollback --env test --knexfile ./knexfile.js
+BASIC_DB_TEST=postgres://postgres@host.docker.internal:5432/basic_db_test knex migrate:latest --env test --knexfile ./knexfile.js
+
 CMD [ "npm", "run", "test" ]
