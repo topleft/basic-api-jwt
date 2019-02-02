@@ -1,4 +1,3 @@
-language: node_js
 services:
 - docker
 - postgresql
@@ -6,10 +5,13 @@ services:
 before_install:
 - psql -c 'create database basic_db_test;' -U postgres
 - docker build -f Dockerfile.test -t topleft/api-boiler-test .
+
 before_script:
 - knex migrate:latest --env test
+
 script:
 - docker run -d --env-file=env_file.test topleft/api-boiler-test:latest
+
 notifications:
   email:
     - pete.topleft@gmail.com
