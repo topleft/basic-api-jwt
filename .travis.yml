@@ -1,3 +1,8 @@
+language: node_js
+
+node_js:
+- '9'
+
 services:
 - docker
 - postgresql
@@ -7,6 +12,7 @@ before_install:
 - docker build -f Dockerfile.test -t topleft/api-boiler-test .
 
 before_script:
+- npm install knex -g
 - knex migrate:latest --env test
 
 script:
