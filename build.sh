@@ -11,7 +11,7 @@ if ! (git status | grep 'nothing to commit'); then
 fi
 
 # 1. run the tests in the docker container
-# 2. if tests continue
+# 2. if tests pass, continue
 # 3. update application version
 # 4. push new version and tag to git
 # 5. build container
@@ -31,7 +31,7 @@ until [ $STATUS = 'exited' ]; do
 done
 
 EXIT_CODE=$(docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}')
-# 2. if tests continue
+# 2. if tests pass, continue
 if [ $EXIT_CODE -eq 0 ];
   then
     echo "\nTests past!\n"
@@ -59,6 +59,6 @@ if [ $EXIT_CODE -eq 0 ];
     echo "Build successful!\n"
   else
     echo "\n Tests failed.\n"
-    echo "For details run --> docker logs $CONTAINER_ID\n"
+    echo "For details run --> \n docker logs $CONTAINER_ID\n"
     exit 1
 fi
