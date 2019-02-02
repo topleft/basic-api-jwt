@@ -21,8 +21,9 @@ fi
 # 9. push both latest and $version to docker hub
 
 # 1. Clear the database and apply migrations
-knex migrate:rollback --env test --knexfile ./knexfile.js
-knex migrate:latest --env test --knexfile ./knexfile.js
+
+BASIC_DB_TEST=basic_db_test knex migrate:rollback --env test --knexfile ./knexfile.js
+BASIC_DB_TEST=basic_db_test knex migrate:latest --env test --knexfile ./knexfile.js
 # 2. run the tests in the docker container
 echo 'Running tests ... '
 docker build -f Dockerfile.test -t topleft/api-boiler-test .
