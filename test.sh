@@ -1,6 +1,6 @@
 echo 'Running tests ... '
 docker build -f Dockerfile.test --pull --cache-from topleft/api-boiler-test:latest -t topleft/api-boiler-test:latest .
-CONTAINER_ID=$(docker run --network='host' -e BASIC_DB_TEST=postgres://postgres@host.docker.internal:5432/basic_db_test -e TOKEN_SECRET -e NODE_ENV topleft/api-boiler-test:latest)
+CONTAINER_ID=$(docker run --network='host' -e BASIC_DB_TEST=postgres://postgres@gateway.docker.internal:5432/basic_db_test -e TOKEN_SECRET -e NODE_ENV topleft/api-boiler-test:latest)
 echo "Container ID: $CONTAINER_ID"
 
 if ! [ $CONTAINER_ID ]; then exit 1;
