@@ -23,10 +23,6 @@ const tests = () => {
         });
       });
 
-      it('should fail', () => {
-        expect(1).to.equal(2)
-      });
-
       it('should throw error if username is not 6 or more characters', done => {
         chai.request(server)
           .post('/auth/register')
