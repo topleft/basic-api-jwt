@@ -17,7 +17,7 @@ services:
   basic-db:
     build: ./src/db
     ports:
-      - '5432:5432'
+      - '5433:5432'
     environment:
     - POSTGRES_USER=admin
     - POSTGRES_PASSWORD=admin
