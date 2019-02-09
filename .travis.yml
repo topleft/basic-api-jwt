@@ -12,10 +12,15 @@ before_install:
 - psql -c 'create database basic_db_test;' -U postgres
 - npm install knex -g
 - sleep 10
-- BASIC_DB_TEST=postgres://postgres@localhost:5432/basic_db_test && knex migrate:latest --env test
+
+before_script:
+-  docker-compose run web sh migrate.sh
 
 script:
-- sh test.sh
+- docker-compose run web npm run test
+
+after_script:
+  - docker-compose down
 
 notifications:
   email:
