@@ -1,23 +1,20 @@
 
 language: node_js
 
-node_js:
-- '9'
-
 services:
-- docker
-- postgresql
+  - docker
+  - postgresql
 
 before_install:
-- psql -c 'create database basic_db_test;' -U postgres
-- npm install knex -g
-- sleep 10
+  - psql -c 'create database basic_db_test;' -U postgres
+  - sleep 10
 
 before_script:
--  docker-compose run web sh migrate.sh
+  - docker-compose up --build -d
+  - docker-compose run web sh migrate.sh
 
 script:
-- docker-compose run web npm run test
+  - docker-compose run web npm run test
 
 after_script:
   - docker-compose down
