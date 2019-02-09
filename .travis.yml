@@ -2,10 +2,6 @@ services:
   - docker
   - postgresql
 
-before_install:
-  - psql -c 'create database basic_db_test;' -U postgres
-  - sleep 10
-
 before_script:
   - docker-compose up --build -d
   - docker-compose run web sh migrate.sh
