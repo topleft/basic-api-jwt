@@ -5,12 +5,14 @@ WORKDIR /usr/src
 COPY knexfile.js ./
 COPY package*.json ./
 COPY .eslintrc ./
+COPY resetTestDb.sh ./migrate.sh
 COPY docker-test-entrypoint.sh ./
+
+ENV PATH /usr/src/node_modules/.bin:$PATH
 
 RUN npm install
 
 COPY ./src ./src/.
 COPY ./test ./test/.
 
-ENTRYPOINT ["sh", "./docker-test-entrypoint.sh"]
 

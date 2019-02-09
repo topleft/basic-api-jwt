@@ -11,7 +11,6 @@ chai.use(chaiHttp);
 const server = require('../../../src/server/app');
 
 const tests = () => {
-  console.log('DB CONNECTION', process.env.BASIC_DB_TEST);
   describe('auth/register', () => {
     describe('errors', () => {
       beforeEach(done => {
