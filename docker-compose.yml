@@ -22,4 +22,7 @@ services:
     - POSTGRES_USER=admin
     - POSTGRES_PASSWORD=admin
     healthcheck:
-      test: exit 0
+      test: ["CMD-SHELL", "psql -h 'localhost' -U 'admin' -c '\\l'"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
