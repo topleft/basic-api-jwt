@@ -4,8 +4,6 @@ services:
 
 before_script:
   - docker-compose up --build -d
-  - sleep 15
-  - docker-compose run web sh migrate.sh
 
 script:
   - docker-compose-test.sh
