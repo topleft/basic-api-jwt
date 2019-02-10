@@ -8,7 +8,7 @@ before_script:
   - docker-compose run web sh migrate.sh
 
 script:
-  - docker-compose run web npm run test
+  - docker-compose-test.sh
 
 after_script:
   - docker-compose down
