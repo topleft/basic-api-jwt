@@ -3,7 +3,7 @@
 echo "\nTests past!\n"
 
 # update and commit application version
-VERSION=$(npm version patch)
+export VERSION=$(npm version patch)
 
 # push new version and tag to git
 git push
