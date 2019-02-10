@@ -1,0 +1,28 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test
+    ports:
+     - "3030:3030"
+    depends_on:
+      - basic-db
+    links:
+      - basic-db
+    environment:
+      - BASIC_DB_TEST=postgres://admin:admin@basic-db:5432/basic_db_test
+      - TOKEN_SECRET=verysecret
+      - NODE_ENV=test
+  basic-db:
+    build: ./src/db
+    ports:
+      - '5433:5432'
+    environment:
+    - POSTGRES_USER=admin
+    - POSTGRES_PASSWORD=admin
+    healthcheck:
+      test: ["CMD-SHELL", "psql -h 'localhost' -U 'admin' -c '\\l'"]
+      interval: 10s
+      timeout: 10s
+      retries: 3

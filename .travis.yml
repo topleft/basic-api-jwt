@@ -1,21 +1,30 @@
-os: windows
-language: node_js
-
-node_js:
-- '9'
-
 services:
-- docker
-- postgresql
+  - docker
+  - postgresql
 
-before_install:
-- psql -c 'create database basic_db_test;' -U postgres
-- npm install knex -g
-- sleep 10
-- BASIC_DB_TEST=postgres://postgres@localhost:5432/basic_db_test && knex migrate:latest --env test
+before_script:
+  - docker-compose up --build -d
 
 script:
-- sh test.sh
+  - sh docker-compose-test.sh
+
+after_script:
+  - docker-compose down
+
+after_success:
+  - git config --local user.name "topleft"
+  - git config --local user.email "pete.topleft@gmail.com"
+  - export VERSION=$(npm version patch)
+  - git tag $VERSION
+  - git push
+  - git push --tags
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  skip_cleanup: true
+  on:
+    branch: master
 
 notifications:
   email:
