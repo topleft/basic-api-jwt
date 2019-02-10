@@ -16,13 +16,14 @@ after_success:
   - git config --local user.email "pete.topleft@gmail.com"
   - export VERSION=$(npm version patch)
   - git tag $VERSION
-  - git push --tags
 
 deploy:
   - provider: releases
     api_key: $GITHUB_TOKEN
+    tag_name: $VERSION
     skip_cleanup: true
     on:
+      tags: true
       branch: master
   - provider: script
     script: sh docker-push.sh
