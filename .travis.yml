@@ -15,7 +15,6 @@ after_success:
   - git config --local user.name "topleft"
   - git config --local user.email "pete.topleft@gmail.com"
   - export VERSION=$(npm version patch)
-  - git tag $VERSION
 
 deploy:
   - provider: releases
@@ -23,7 +22,6 @@ deploy:
     tag_name: $VERSION
     skip_cleanup: true
     on:
-      tags: true
       branch: master
   - provider: script
     script: sh docker-push.sh
